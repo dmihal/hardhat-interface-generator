@@ -1,12 +1,12 @@
 {
-  "name": "hardhat-ts-plugin-boilerplate",
-  "version": "0.0.1",
-  "description": "Hardhat TypeScript plugin boilerplate",
-  "repository": "github:nomiclabs/hardhat-ts-plugin-boilerplate",
-  "author": "Nomic Labs LLC",
+  "name": "hardhat-interface-generator",
+  "version": "0.0.2",
+  "description": "Generate Solidity interfaces",
+  "repository": "github:dmihal/hardhat-interface-generator",
+  "author": "David Mihal",
   "license": "MIT",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "ethereum",
     "smart-contracts",
@@ -21,7 +21,7 @@
     "watch": "tsc -w"
   },
   "files": [
-    "dist/src/",
+    "dist/",
     "src/",
     "LICENSE",
     "README.md"
@@ -43,5 +43,8 @@
   },
   "peerDependencies": {
     "hardhat": "^2.0.0"
+  },
+  "dependencies": {
+    "abi2solidity": "^0.1.2"
   }
 }
