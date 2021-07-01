@@ -10,12 +10,9 @@ task("gen-interface", "Generate a new Solidity interface for a given file")
     const outputFile = hre.config.paths.root
       + '/'
       + artifact.sourceName.replace(/[^\/]+.sol/, `I${contract}.sol`);
-    console.log('Output file', outputFile);
 
     const solidity = abi2solidity(JSON.stringify(artifact.abi))
       .replace('GeneratedInterface', `I${contract}`);
-
-    console.log(solidity);
 
     fs.writeFile(outputFile, solidity, (err: any) => {
       if (err) {

@@ -2,7 +2,7 @@
 
 _Generate solidity interfaces_
 
-[Hardhat](https://hardhat.org) plugin example. 
+[Hardhat](https://hardhat.org) plugin. 
 
 ## Installation
 
