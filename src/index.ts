@@ -1,49 +1,27 @@
-import { extendConfig, extendEnvironment } from "hardhat/config";
-import { lazyObject } from "hardhat/plugins";
-import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
-import path from "path";
+import { task } from "hardhat/config";
+import abi2solidity from "abi2solidity";
+import fs from "fs";
 
-import { ExampleHardhatRuntimeEnvironmentField } from "./ExampleHardhatRuntimeEnvironmentField";
-// This import is needed to let the TypeScript compiler know that it should include your type
-// extensions in your npm package's types file.
-import "./type-extensions";
+task("gen-interface", "Generate a new Solidity interface for a given file")
+  .addPositionalParam("contract", "Solidity contract name")
+  .setAction(async ({ contract }, hre) => {
+    const artifact = await hre.artifacts.readArtifact(contract);
 
-extendConfig(
-  (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-    // We apply our default config here. Any other kind of config resolution
-    // or normalization should be placed here.
-    //
-    // `config` is the resolved config, which will be used during runtime and
-    // you should modify.
-    // `userConfig` is the config as provided by the user. You should not modify
-    // it.
-    //
-    // If you extended the `HardhatConfig` type, you need to make sure that
-    // executing this function ensures that the `config` object is in a valid
-    // state for its type, including its extentions. For example, you may
-    // need to apply a default value, like in this example.
-    const userPath = userConfig.paths?.newPath;
+    const outputFile = hre.config.paths.root
+      + '/'
+      + artifact.sourceName.replace(/[^\/]+.sol/, `I${contract}.sol`);
+    console.log('Output file', outputFile);
 
-    let newPath: string;
-    if (userPath === undefined) {
-      newPath = path.join(config.paths.root, "newPath");
-    } else {
-      if (path.isAbsolute(userPath)) {
-        newPath = userPath;
+    const solidity = abi2solidity(JSON.stringify(artifact.abi))
+      .replace('GeneratedInterface', `I${contract}`);
+
+    console.log(solidity);
+
+    fs.writeFile(outputFile, solidity, (err: any) => {
+      if (err) {
+        console.error(err);
       } else {
-        // We resolve relative paths starting from the project's root.
-        // Please keep this convention to avoid confusion.
-        newPath = path.normalize(path.join(config.paths.root, userPath));
+        console.log(`Generated interface I${contract}`);
       }
-    }
-
-    config.paths.newPath = newPath;
-  }
-);
-
-extendEnvironment((hre) => {
-  // We add a field to the Hardhat Runtime Environment here.
-  // We use lazyObject to avoid initializing things until they are actually
-  // needed.
-  hre.example = lazyObject(() => new ExampleHardhatRuntimeEnvironmentField());
-});
+    });
+  });
