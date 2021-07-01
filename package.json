@@ -1,6 +1,6 @@
 {
   "name": "hardhat-interface-generator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Generate Solidity interfaces",
   "repository": "github:dmihal/hardhat-interface-generator",
   "author": "David Mihal",
