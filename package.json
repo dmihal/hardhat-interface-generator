@@ -45,6 +45,6 @@
     "hardhat": "^2.0.0"
   },
   "dependencies": {
-    "abi2solidity": "^0.1.2"
+    "abi2solidity": "^0.2.0"
   }
 }
