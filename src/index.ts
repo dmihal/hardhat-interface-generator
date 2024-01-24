@@ -14,11 +14,6 @@ task("gen-interface", "Generate a new Solidity interface for a given file")
     const solidity = abi2solidity(JSON.stringify(artifact.abi))
       .replace('GeneratedInterface', `I${contract}`);
 
-    fs.writeFile(outputFile, solidity, (err: any) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(`Generated interface I${contract}`);
-      }
-    });
+    fs.writeFileSync(outputFile, solidity)
+    console.log(`Generated interface I${contract}`);
   });
